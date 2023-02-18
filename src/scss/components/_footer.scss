@@ -1,0 +1,34 @@
+@import '../variables';
+
+.footer {
+  background-color: $orange;
+  padding: 20px 0;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  p {
+    color: #fff;
+  }
+
+  ul {
+    display: flex;
+
+    li {
+      &:last-of-type {
+        margin-left: 8px;
+      }
+
+      a {
+        color: #fff;
+
+        &:hover {
+          color: darken(#fff, 20%);
+        }
+      }
+    }
+  }
+}
