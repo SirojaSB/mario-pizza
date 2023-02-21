@@ -4,6 +4,10 @@
   background-color: $orange;
   padding: 20px 0;
 
+  @media (max-width: 472px) {
+    font-size: 14px;
+  }
+
   .container {
     display: flex;
     align-items: center;

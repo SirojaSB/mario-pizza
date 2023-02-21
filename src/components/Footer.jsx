@@ -6,10 +6,10 @@ function Footer() {
                 <nav>
                     <ul>
                         <li>
-                            <a className='footer__link-item' href='https://t.me/qurgat'>Telegram</a>
+                            <a className='footer__link-item' href='https://t.me/qurgat' target='_blank' rel="noreferrer">Telegram</a>
                         </li>
                         <li>
-                            <a className='footer__link-item' href='https://github.com/SirojaSB'>Github</a>
+                            <a className='footer__link-item' href='https://github.com/SirojaSB' target='_blank' rel="noreferrer">Github</a>
                         </li>
                     </ul>
                 </nav>
