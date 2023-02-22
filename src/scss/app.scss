@@ -30,7 +30,9 @@ body {
   }
 
   &__title {
-    margin: 35px 0;
+    @media (max-width: 822px) {
+      margin-bottom: 20px;
+    }
   }
 
   &__container {
@@ -68,6 +70,17 @@ body {
     justify-content: space-between;
 
     @media (max-width: 1290px) {
+      flex-direction: column;
+    }
+  }
+
+  &__undertop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+
+    @media (max-width: 822px) {
       flex-direction: column;
     }
   }

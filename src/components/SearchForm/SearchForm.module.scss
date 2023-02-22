@@ -1,0 +1,32 @@
+.searchForm {
+  width: 280px;
+  border: 1px solid rgba(254, 95, 30, 1);
+  border-radius: 20px;
+  padding: 5px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  input {
+    border: none;
+    margin-left: 10px;
+    font-size: 14px;
+  }
+
+  button {
+    width: 48px;
+    height: 28px;
+    border: none;
+    border-radius: 48px;
+    background-color: rgba(254, 95, 30, .2);;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
