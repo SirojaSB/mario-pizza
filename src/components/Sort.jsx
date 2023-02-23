@@ -1,19 +1,25 @@
 import {useState} from "react";
+import {useSelector, useDispatch} from "react-redux";
 
-function Sort({ activeProperty, changeActiveProperty }) {
+import {changeActiveProperty} from "../redux/slices/filterSlice";
+
+const sortNameList = [
+    { name: 'популярности ↓', sortProperty: 'rating' },
+    { name: 'популярности ↑', sortProperty: 'rating' },
+    { name: 'цене ↓', sortProperty: 'price' },
+    { name: 'цене ↑', sortProperty: 'price' },
+    { name: 'алфавиту ↓', sortProperty: 'title' },
+    { name: 'алфавиту ↑', sortProperty: 'title' }
+]
+
+function Sort() {
     const [isOpen, setIsOpen] = useState(false)
 
-    const sortNameList = [
-        { name: 'популярности ↓', sortProperty: 'rating' },
-        { name: 'популярности ↑', sortProperty: 'rating' },
-        { name: 'цене ↓', sortProperty: 'price' },
-        { name: 'цене ↑', sortProperty: 'price' },
-        { name: 'алфавиту ↓', sortProperty: 'title' },
-        { name: 'алфавиту ↑', sortProperty: 'title' }
-    ]
+    const activeSortProperty = useSelector(state => state.filter.activeSortProperty)
+    const dispatch = useDispatch()
 
     const selectSortVariant = (item) => {
-        changeActiveProperty(item)
+        dispatch(changeActiveProperty(item))
         setIsOpen(false)
     }
 
@@ -33,14 +39,14 @@ function Sort({ activeProperty, changeActiveProperty }) {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setIsOpen(!isOpen)}>{activeProperty.name}</span>
+                <span onClick={() => setIsOpen(!isOpen)}>{activeSortProperty.name}</span>
             </div>
             {isOpen && (<div className="sort__popup">
                 <ul>
                     {sortNameList.map((item, i) => (
                         <li key={i}
                             onClick={() => selectSortVariant(item)}
-                            className={activeProperty.name === item.name ? 'active' : ''}>{item.name}</li>
+                            className={activeSortProperty.name === item.name ? 'active' : ''}>{item.name}</li>
                     ))}
                 </ul>
             </div>)}
