@@ -1,10 +1,27 @@
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+
+import {addItem} from '../../redux/slices/cartSlice'
 
 function PizzaCard({imageUrl, title, price, sizes, types}) {
     const [activeIndexOfType, setActiveIndexOfType] = useState(0)
     const [activeIndexOfSize, setActiveIndexOfSize] = useState(0)
 
     const typeNames = ['тонкое', 'традиционное']
+
+    const dispatch = useDispatch()
+
+    const addPizzaToCart = () => {
+        const pizza = {
+            imageUrl,
+            title,
+            price,
+            size: sizes[activeIndexOfSize],
+            type: typeNames[activeIndexOfType]
+        }
+
+        dispatch(addItem(pizza))
+    }
 
     return (
         <li className="pizza-block">
@@ -28,7 +45,7 @@ function PizzaCard({imageUrl, title, price, sizes, types}) {
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от {price} ₽</div>
-                <button className="button button--outline button--add">
+                <button onClick={addPizzaToCart} className="button button--outline button--add">
                     <svg
                         width="12"
                         height="12"
@@ -41,8 +58,7 @@ function PizzaCard({imageUrl, title, price, sizes, types}) {
                             fill="white"
                         />
                     </svg>
-                    <span>Добавить</span>
-                    <i>0</i>
+                    <span>В корзину</span>
                 </button>
             </div>
         </li>

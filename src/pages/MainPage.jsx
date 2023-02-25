@@ -55,11 +55,9 @@ function MainPage() {
     )
 
     useEffect(() => {
-        window.addEventListener('resize', calculateNumberOfItems);
+        window.addEventListener('resize', calculateNumberOfItems)
 
-        return () => {
-            window.removeEventListener('resize', calculateNumberOfItems);
-        };
+        return () => window.removeEventListener('resize', calculateNumberOfItems)
     }, [])
 
     useEffect(() => {
