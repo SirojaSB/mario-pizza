@@ -1,6 +1,5 @@
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import axios from "axios";
 import debounce from 'lodash.debounce'
 import qs from 'qs'
 import {useNavigate} from "react-router-dom";
@@ -17,10 +16,9 @@ import {
     changeCurrentNumberOfItems,
     setFilterFromUrl
 } from "../redux/slices/filterSlice";
+import {fetchPizzas} from "../redux/slices/pizzasSlice";
 
 function MainPage() {
-    const [pizzas, setPizzas] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
     const [searchValue, setSearchValue] = useState('')
     const isSearch = useRef(false)
     const isFirstMount = useRef(true)
@@ -35,6 +33,8 @@ function MainPage() {
         currentPage,
         currentNumberOfItems
     } = useSelector(state => state.filter)
+
+    const {pizzas, status} = useSelector(state => state.pizzas)
 
     const changeActiveIndexOfCategory = i => {
         dispatch(changeCategory(i))
@@ -71,34 +71,31 @@ function MainPage() {
         }
     }, [])
 
-    const fetchPizzas = () => {
-        setIsLoading(true)
-
+    const getPizzas = () => {
         const sortingCategory = activeIndexOfCategory > 0 ? `category=${activeIndexOfCategory}` : ''
         const order = activeSortProperty.name.includes('↓') ? `desc` : `asc`
 
-        axios.get(`https://63f20e814f17278c9a1f42b0.mockapi.io/pizzas?page=${currentPage}&limit=${currentNumberOfItems}&${sortingCategory}&sortBy=${activeSortProperty.sortProperty}&order=${order}`)
-            .then(res => {
-                const searchedPizzas = res.data.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-                setPizzas(searchedPizzas)
-                setIsLoading(false)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        dispatch(fetchPizzas({
+            sortingCategory,
+            order,
+            currentNumberOfItems,
+            currentPage,
+            sortProperty: activeSortProperty.sortProperty,
+            searchValue
+        }))
     }
 
 
     useEffect(() => {
-        if(!isSearch.current) {
-            fetchPizzas()
+        if (!isSearch.current) {
+            getPizzas()
         }
 
         isSearch.current = false
     }, [activeIndexOfCategory, activeSortProperty, searchValue, currentPage, currentNumberOfItems])
 
     useEffect(() => {
-        if(!isFirstMount.current) {
+        if (!isFirstMount.current) {
             const queryString = qs.stringify({
                 name: activeSortProperty.name,
                 activeIndexOfCategory,
@@ -122,16 +119,23 @@ function MainPage() {
                 <h2 className="content__title">Все пиццы</h2>
                 <SearchForm setSearchValue={setSearchValue}/>
             </div>
-            <div className='content__container'>
-                <ul className="content__items">
-                    {isLoading ?
-                        [...new Array(8)].map((_, i) => (<PizzaCardSkeleton key={i}/>)) :
-                        pizzas.map((item) => (<PizzaCard key={item.id} {...item} />))}
-                </ul>
-            </div>
-            <Pagination currentPage={currentPage}
-                        onPageChange={onChangeCurrentPage}
-                        currentNumberOfItems={currentNumberOfItems}/>
+            {status === 'error' ?
+                (<div className='content__error-container'>
+                    <h3>Произошла ошибка</h3>
+                    <p>Извините, но нам не удалось выгрузить пиццы из нашего хранилища. Повторите попытку позднее.</p>
+                </div>) :
+                (<>
+                    <div className='content__container'>
+                        <ul className="content__items">
+                            {status === 'loading' ?
+                                [...new Array(8)].map((_, i) => (<PizzaCardSkeleton key={i}/>)) :
+                                pizzas.map((item) => (<PizzaCard key={item.id} {...item} />))}
+                        </ul>
+                    </div>
+                    <Pagination currentPage={currentPage}
+                                onPageChange={onChangeCurrentPage}
+                                currentNumberOfItems={currentNumberOfItems}/>
+                </>)}
         </div>
     );
 }
