@@ -7,17 +7,17 @@ export const fetchPizzas = createAsyncThunk('pizzas/fetchPizzasStatus', async (p
         order,
         currentNumberOfItems,
         currentPage,
-        sortProperty,
-        searchValue
+        sortProperty
     } = params
 
     const {data} = await axios.get(`https://63f20e814f17278c9a1f42b0.mockapi.io/pizzas?page=${currentPage}&limit=${currentNumberOfItems}&${sortingCategory}&sortBy=${sortProperty}&order=${order}`)
 
-    return data.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
+    return data
 })
 
 const initialState = {
-    pizzas: [],
+    pizzasStore: [],
+    searchedPizzas: [],
     status: 'loading'
 }
 
@@ -25,26 +25,29 @@ const pizzasSlice = createSlice({
     name: 'pizzas',
     initialState,
     reducers: {
-        setPizzas(state, action) {
-            state.pizzas = action.payload
+        getSearchedPizzas(state, action) {
+            state.searchedPizzas = state.pizzasStore.filter((item) => item.title.toLowerCase().includes(action.payload.toLowerCase()))
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchPizzas.pending, (state, action) => {
-            state.pizzas = [];
+        builder.addCase(fetchPizzas.pending, (state) => {
+            state.pizzasStore = [];
+            state.searchedPizzas = [];
             state.status = 'loading';
         })
         builder.addCase(fetchPizzas.fulfilled, (state, action) => {
-            state.pizzas = action.payload;
+            state.pizzasStore = action.payload;
+            state.searchedPizzas = action.payload;
             state.status = 'success';
         })
-        builder.addCase(fetchPizzas.rejected, (state, action) => {
-            state.pizzas = action.payload;
+        builder.addCase(fetchPizzas.rejected, (state) => {
+            state.pizzasStore = [];
+            state.searchedPizzas = [];
             state.status = 'error';
         })
     }
 })
 
-export const {setPizzas} = pizzasSlice.actions
+export const {getSearchedPizzas} = pizzasSlice.actions
 
 export default pizzasSlice.reducer

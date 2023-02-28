@@ -34,6 +34,8 @@ const filterSlice = createSlice({
     }
 })
 
+export const getFilterSelector = state => state.filter
+
 export const {
     changeCategory,
     changeActiveProperty,

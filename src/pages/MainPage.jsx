@@ -14,12 +14,12 @@ import {
     changeCategory,
     changeCurrentPage,
     changeCurrentNumberOfItems,
-    setFilterFromUrl
+    setFilterFromUrl,
+    getFilterSelector
 } from "../redux/slices/filterSlice";
 import {fetchPizzas} from "../redux/slices/pizzasSlice";
 
 function MainPage() {
-    const [searchValue, setSearchValue] = useState('')
     const isSearch = useRef(false)
     const isFirstMount = useRef(true)
 
@@ -32,9 +32,9 @@ function MainPage() {
         activeSortProperty,
         currentPage,
         currentNumberOfItems
-    } = useSelector(state => state.filter)
+    } = useSelector(getFilterSelector)
 
-    const {pizzas, status} = useSelector(state => state.pizzas)
+    const {searchedPizzas, status} = useSelector(state => state.pizzas)
 
     const changeActiveIndexOfCategory = i => {
         dispatch(changeCategory(i))
@@ -80,8 +80,7 @@ function MainPage() {
             order,
             currentNumberOfItems,
             currentPage,
-            sortProperty: activeSortProperty.sortProperty,
-            searchValue
+            sortProperty: activeSortProperty.sortProperty
         }))
     }
 
@@ -92,7 +91,7 @@ function MainPage() {
         }
 
         isSearch.current = false
-    }, [activeIndexOfCategory, activeSortProperty, searchValue, currentPage, currentNumberOfItems])
+    }, [activeIndexOfCategory, activeSortProperty, currentPage, currentNumberOfItems])
 
     useEffect(() => {
         if (!isFirstMount.current) {
@@ -117,7 +116,7 @@ function MainPage() {
             </div>
             <div className='content__undertop'>
                 <h2 className="content__title">Все пиццы</h2>
-                <SearchForm setSearchValue={setSearchValue}/>
+                <SearchForm />
             </div>
             {status === 'error' ?
                 (<div className='content__error-container'>
@@ -129,7 +128,7 @@ function MainPage() {
                         <ul className="content__items">
                             {status === 'loading' ?
                                 [...new Array(8)].map((_, i) => (<PizzaCardSkeleton key={i}/>)) :
-                                pizzas.map((item) => (<PizzaCard key={item.id} {...item} />))}
+                                searchedPizzas.map((item) => (<PizzaCard key={item.id} {...item} />))}
                         </ul>
                     </div>
                     <Pagination currentPage={currentPage}
