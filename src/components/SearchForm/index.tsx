@@ -1,4 +1,4 @@
-import {useCallback, useRef, useState} from "react";
+import React, {useCallback, useRef, useState} from "react";
 import debounce from "lodash.debounce";
 import {useDispatch} from "react-redux";
 
@@ -6,26 +6,26 @@ import styles from './SearchForm.module.scss'
 import icon from '../../assets/img/Clear-icon.svg'
 import {getSearchedPizzas} from "../../redux/slices/pizzasSlice";
 
-function SearchForm() {
+const SearchForm: React.FC = () => {
     const [currentValue, setCurrentValue] = useState('')
-    const inputRef = useRef()
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const dispatch = useDispatch()
 
     const cleatInput = () => {
         setCurrentValue('')
         dispatch(getSearchedPizzas(''))
-        inputRef.current.focus()
+        inputRef.current?.focus()
     }
 
     const updateSearchValue = useCallback(
-        debounce((value) => {
+        debounce((value: string) => {
             dispatch(getSearchedPizzas(value))
         }, 300),
         []
     )
 
-    const onChangeValue = (e) => {
+    const onChangeValue = (e: any) => {
         setCurrentValue(e.target.value)
         updateSearchValue(e.target.value)
     }

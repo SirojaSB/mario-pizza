@@ -2,14 +2,14 @@ import {useNavigate} from "react-router-dom";
 import {useSelector,useDispatch} from "react-redux";
 
 import CartPizzaCard from "../components/CartPizzaCard";
-import {clearCart} from "../redux/slices/cartSlice";
+import {clearCart, getCartSelector} from "../redux/slices/cartSlice";
 import CartEmpty from "../components/CartEmpty";
 
-function CartPage() {
+const CartPage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const {items, totalPrice, totalCount} = useSelector(state => state.cart)
+    const {items, totalPrice, totalCount} = useSelector(getCartSelector)
 
     const clearFullCart = () => {
         dispatch(clearCart())
@@ -53,7 +53,7 @@ function CartPage() {
                     </div>
                 </div>
                 <div className="content__items content__items_cart">
-                    {items.map((pizza) => (
+                    {items.map((pizza: any) => (
                         <CartPizzaCard key={pizza.id} {...pizza}/>
                     ))}
                 </div>

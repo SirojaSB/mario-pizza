@@ -1,6 +1,12 @@
-function Categories({ activeIndex, changeActiveIndex }) {
+import React from "react";
 
-    const categories = [
+type CategoriesProps = {
+    activeIndex: number;
+    changeActiveIndex: any;
+}
+
+const Categories: React.FC<CategoriesProps> = ({ activeIndex, changeActiveIndex }) => {
+    const categories: string[] = [
         'Все',
         'Мясные',
         'Вегетарианская',

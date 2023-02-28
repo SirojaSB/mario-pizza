@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import debounce from 'lodash.debounce'
 import qs from 'qs'
@@ -19,7 +19,7 @@ import {
 } from "../redux/slices/filterSlice";
 import {fetchPizzas} from "../redux/slices/pizzasSlice";
 
-function MainPage() {
+const MainPage: React.FC = () => {
     const isSearch = useRef(false)
     const isFirstMount = useRef(true)
 
@@ -34,13 +34,13 @@ function MainPage() {
         currentNumberOfItems
     } = useSelector(getFilterSelector)
 
-    const {searchedPizzas, status} = useSelector(state => state.pizzas)
+    const {searchedPizzas, status} = useSelector((state: any) => state.pizzas)
 
-    const changeActiveIndexOfCategory = i => {
+    const changeActiveIndexOfCategory = (i: number) => {
         dispatch(changeCategory(i))
     }
 
-    const onChangeCurrentPage = num => {
+    const onChangeCurrentPage = (num: number) => {
         dispatch(changeCurrentPage(num))
     }
 
@@ -75,13 +75,15 @@ function MainPage() {
         const sortingCategory = activeIndexOfCategory > 0 ? `category=${activeIndexOfCategory}` : ''
         const order = activeSortProperty.name.includes('↓') ? `desc` : `asc`
 
-        dispatch(fetchPizzas({
-            sortingCategory,
-            order,
-            currentNumberOfItems,
-            currentPage,
-            sortProperty: activeSortProperty.sortProperty
-        }))
+        dispatch(
+            // @ts-ignore
+            fetchPizzas({
+                sortingCategory,
+                order,
+                currentNumberOfItems,
+                currentPage,
+                sortProperty: activeSortProperty.sortProperty
+            }))
     }
 
 
@@ -111,12 +113,12 @@ function MainPage() {
         <div className="container">
             <div className="content__top">
                 <Categories activeIndex={activeIndexOfCategory}
-                            changeActiveIndex={(i) => changeActiveIndexOfCategory(i)}/>
+                            changeActiveIndex={(i: number) => changeActiveIndexOfCategory(i)}/>
                 <Sort/>
             </div>
             <div className='content__undertop'>
                 <h2 className="content__title">Все пиццы</h2>
-                <SearchForm />
+                <SearchForm/>
             </div>
             {status === 'error' ?
                 (<div className='content__error-container'>
@@ -128,7 +130,7 @@ function MainPage() {
                         <ul className="content__items">
                             {status === 'loading' ?
                                 [...new Array(8)].map((_, i) => (<PizzaCardSkeleton key={i}/>)) :
-                                searchedPizzas.map((item) => (<PizzaCard key={item.id} {...item} />))}
+                                searchedPizzas.map((item: any) => (<PizzaCard key={item.id} {...item} />))}
                         </ul>
                     </div>
                     <Pagination currentPage={currentPage}

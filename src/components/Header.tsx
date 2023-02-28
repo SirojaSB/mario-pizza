@@ -1,10 +1,12 @@
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
+import React from "react";
 
 import logo from '../assets/img/pizza-logo.svg'
+import {getCartSelector} from "../redux/slices/cartSlice";
 
-function Header() {
-    const {totalPrice, totalCount} = useSelector(state => state.cart)
+const Header: React.FC = () => {
+    const {totalPrice, totalCount} = useSelector(getCartSelector)
 
     return (
         <header className="header">

@@ -1,8 +1,19 @@
 import {useDispatch} from "react-redux";
+import React from "react";
 
 import {addItem, decreaseCountOfItem, removeItem} from "../redux/slices/cartSlice";
 
-function CartPizzaCard({id, imageUrl, title, size, type, count, price}) {
+type CartCardProps = {
+    id: number;
+    imageUrl: string;
+    title: string;
+    size: number;
+    type: string;
+    count: number;
+    price: number;
+}
+
+const CartPizzaCard: React.FC<CartCardProps> = ({id, imageUrl, title, size, type, count, price}) => {
     const dispatch = useDispatch()
 
     const increaseCounter = () => {

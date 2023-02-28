@@ -1,9 +1,17 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 
 import {addItem} from '../../redux/slices/cartSlice'
 
-function PizzaCard({imageUrl, title, price, sizes, types}) {
+type PizzaCardProps = {
+    imageUrl: string;
+    title: string;
+    price: number;
+    sizes: number[];
+    types: number[];
+}
+
+const PizzaCard: React.FC<PizzaCardProps> = ({imageUrl, title, price, sizes, types}) => {
     const [activeIndexOfType, setActiveIndexOfType] = useState(0)
     const [activeIndexOfSize, setActiveIndexOfSize] = useState(0)
 

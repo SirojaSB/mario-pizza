@@ -1,12 +1,15 @@
-import './scss/app.scss';
 import {Route, Routes} from "react-router-dom";
+import React from "react";
+
+import './scss/app.scss';
 import Header from "./components/Header";
 import MainPage from "./pages/MainPage";
 import CartPage from "./pages/CartPage";
 import Footer from "./components/Footer";
 import NotFoundPage from "./pages/NotFoundPage";
 
-function App() {
+
+const App: React.FC = () => {
     return (
         <div className="wrapper">
             <Header/>
