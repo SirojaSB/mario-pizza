@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 
-import {addItem} from '../../redux/slices/cartSlice'
+import {addItem, CartItem} from '../../redux/slices/cartSlice'
 
 type PizzaCardProps = {
     imageUrl: string;
@@ -20,12 +20,13 @@ const PizzaCard: React.FC<PizzaCardProps> = ({imageUrl, title, price, sizes, typ
     const dispatch = useDispatch()
 
     const addPizzaToCart = () => {
-        const pizza = {
+        const pizza: CartItem = {
             imageUrl,
             title,
             price,
             size: sizes[activeIndexOfSize],
-            type: typeNames[activeIndexOfType]
+            type: typeNames[activeIndexOfType],
+            count: 0
         }
 
         dispatch(addItem(pizza))

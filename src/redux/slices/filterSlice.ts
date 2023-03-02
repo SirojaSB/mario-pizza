@@ -1,6 +1,19 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {RootState} from "../store";
 
-const initialState = {
+type SortNameItem = {
+    name: string;
+    sortProperty: string;
+}
+
+interface FilterSliceState {
+    activeIndexOfCategory: number;
+    activeSortProperty: SortNameItem;
+    currentPage: number;
+    currentNumberOfItems: number;
+}
+
+const initialState: FilterSliceState = {
     activeIndexOfCategory: 0,
     activeSortProperty: {
         name: 'популярности ↓',
@@ -14,19 +27,19 @@ const filterSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
-        changeCategory(state, action) {
+        changeCategory(state, action: PayloadAction<number>) {
             state.activeIndexOfCategory = action.payload
         },
-        changeActiveProperty(state, action) {
+        changeActiveProperty(state, action: PayloadAction<SortNameItem>) {
             state.activeSortProperty = action.payload
         },
-        changeCurrentPage(state, action) {
+        changeCurrentPage(state, action: PayloadAction<number>) {
             state.currentPage = action.payload
         },
-        changeCurrentNumberOfItems(state, action) {
+        changeCurrentNumberOfItems(state, action: PayloadAction<number>) {
             state.currentNumberOfItems = action.payload
         },
-        setFilterFromUrl(state, action) {
+        setFilterFromUrl(state, action: PayloadAction<FilterSliceState>) {
             state.activeIndexOfCategory = action.payload.activeIndexOfCategory
             state.currentPage = action.payload.currentPage
             state.activeSortProperty = action.payload.activeSortProperty
@@ -34,7 +47,7 @@ const filterSlice = createSlice({
     }
 })
 
-export const getFilterSelector = state => state.filter
+export const getFilterSelector = (state: RootState) => state.filter
 
 export const {
     changeCategory,

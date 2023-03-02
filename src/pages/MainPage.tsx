@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef} from "react";
-import {useSelector, useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
 import debounce from 'lodash.debounce'
 import qs from 'qs'
 import {useNavigate} from "react-router-dom";
@@ -18,6 +18,7 @@ import {
     getFilterSelector
 } from "../redux/slices/filterSlice";
 import {fetchPizzas} from "../redux/slices/pizzasSlice";
+import {useAppDispatch} from "../redux/store";
 
 const MainPage: React.FC = () => {
     const isSearch = useRef(false)
@@ -25,7 +26,7 @@ const MainPage: React.FC = () => {
 
     const navigate = useNavigate()
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const {
         activeIndexOfCategory,
@@ -65,7 +66,18 @@ const MainPage: React.FC = () => {
             const params = qs.parse(window.location.search.substring(1))
             const activeSortProperty = sortNameList.find(item => item.name === params.name)
 
-            dispatch(setFilterFromUrl({...params, activeSortProperty}))
+            const {
+                activeIndexOfCategory,
+                currentPage,
+                currentNumberOfItems
+            } = params
+
+            dispatch(setFilterFromUrl({
+                activeIndexOfCategory: Number(activeIndexOfCategory),
+                currentPage: Number(currentPage),
+                currentNumberOfItems: Number(currentNumberOfItems),
+                activeSortProperty: activeSortProperty || sortNameList[0]
+            }))
 
             isSearch.current = true
         }
@@ -76,7 +88,6 @@ const MainPage: React.FC = () => {
         const order = activeSortProperty.name.includes('↓') ? `desc` : `asc`
 
         dispatch(
-            // @ts-ignore
             fetchPizzas({
                 sortingCategory,
                 order,
@@ -112,7 +123,7 @@ const MainPage: React.FC = () => {
     return (
         <div className="container">
             <div className="content__top">
-                <Categories activeIndex={activeIndexOfCategory}
+                <Categories activeIndex={Number(activeIndexOfCategory)}
                             changeActiveIndex={(i: number) => changeActiveIndexOfCategory(i)}/>
                 <Sort/>
             </div>
