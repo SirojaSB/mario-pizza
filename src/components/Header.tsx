@@ -1,12 +1,24 @@
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
-import React from "react";
+import React, {useEffect, useRef} from "react";
 
 import logo from '../assets/img/pizza-logo.svg'
 import {getCartSelector} from "../redux/slices/cartSlice";
 
 const Header: React.FC = () => {
-    const {totalPrice, totalCount} = useSelector(getCartSelector)
+    const isFirstMount = useRef(true)
+
+    const data = useSelector(getCartSelector)
+
+    useEffect(() => {
+        if(!isFirstMount.current) {
+            localStorage.setItem('cart', JSON.stringify(data))
+            console.log(111)
+        }
+        console.log(112)
+
+        isFirstMount.current = false
+    }, [data])
 
     return (
         <header className="header">
@@ -20,7 +32,7 @@ const Header: React.FC = () => {
                 </Link>
                 <div className="header__cart">
                     <Link to='/cart' className="button button--cart">
-                        <span>{totalPrice} ₽</span>
+                        <span>{data.totalPrice} ₽</span>
                         <div className="button__delimiter"></div>
                         <svg
                             width="18"
@@ -51,7 +63,7 @@ const Header: React.FC = () => {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                        <span>{totalCount}</span>
+                        <span>{data.totalCount}</span>
                     </Link>
                 </div>
             </div>

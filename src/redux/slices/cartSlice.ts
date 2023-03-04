@@ -18,11 +18,19 @@ interface CartSliceState {
     idCount: number;
 }
 
+const data: CartSliceState = JSON.parse(localStorage.getItem('cart') || '') ||
+    {
+        totalPrice: 0,
+        totalCount: 0,
+        items: [],
+        idCount: 0
+    }
+
 const initialState: CartSliceState = {
-    totalPrice: 0,
-    totalCount: 0,
-    items: [],
-    idCount: 0
+    totalPrice: data.totalPrice,
+    totalCount: data.totalCount,
+    items: data.items,
+    idCount: data.idCount
 }
 
 const cartSlice = createSlice({
