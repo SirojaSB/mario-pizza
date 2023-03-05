@@ -1,27 +1,29 @@
-.container {
+@import '../variables';
+
+.not-found {
   margin: 50px auto 0;
   text-align: center;
+
+  &__error {
+    font-size: 68px;
+    margin: 0;
+  }
 
   p {
     font-size: 24px;
     margin-bottom: 150px;
   }
 
-  .error {
-    font-size: 68px;
-    margin: 0;
-  }
-
   button {
     border: 0;
     background-color: transparent;
-    color: #fe5f1e;
+    color: $orange;
     font-size: 14px;
     font-weight: 800;
     cursor: pointer;
 
     &:hover {
-      color: darken(#fe5f1e, 8%);
+      color: darken($orange, 8%);
     }
   }
 }

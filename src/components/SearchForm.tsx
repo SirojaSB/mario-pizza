@@ -2,9 +2,8 @@ import React, {useCallback, useRef, useState} from "react";
 import debounce from "lodash.debounce";
 import {useDispatch} from "react-redux";
 
-import styles from './SearchForm.module.scss'
-import icon from '../../assets/img/Clear-icon.svg'
-import {getSearchedPizzas} from "../../redux/slices/pizzasSlice";
+import icon from '../assets/img/Clear-icon.svg'
+import {getSearchedPizzas} from "../redux/slices/pizzasSlice";
 
 const SearchForm: React.FC = () => {
     const [currentValue, setCurrentValue] = useState('')
@@ -31,7 +30,7 @@ const SearchForm: React.FC = () => {
     }
 
     return (
-        <form className={styles.searchForm}>
+        <form className='search-form'>
             <input ref={inputRef} type="text" value={currentValue} onChange={onChangeValue} placeholder='Поиск пиццы...' required/>
             <button type='button' onClick={cleatInput}>
                 <img src={icon} alt='Иконка очистки строки поиска'/>

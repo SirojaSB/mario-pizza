@@ -15,7 +15,6 @@ const Header: React.FC = () => {
             localStorage.setItem('cart', JSON.stringify(data))
             console.log(111)
         }
-        console.log(112)
 
         isFirstMount.current = false
     }, [data])
