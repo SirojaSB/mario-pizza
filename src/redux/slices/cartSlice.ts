@@ -67,19 +67,27 @@ const cartSlice = createSlice({
         decreaseCountOfItem(state, action: PayloadAction<number>) {
             const foundItem = state.items.find((item) => item.id === action.payload)
 
-            if (foundItem && (foundItem.count !== 1)) {
+            if ((foundItem && foundItem.count !== 1)) {
                 foundItem.count--
                 state.totalPrice = state.totalPrice - foundItem.price
                 state.totalCount--
             } else {
                 state.items = state.items.filter(item => item.id !== action.payload)
+
+                state.totalPrice = state.items.reduce((sum, item) => {
+                    return sum += item.price * item.count
+                }, 0)
+
+                state.totalCount = state.items.reduce((sum, item) => {
+                    return sum += item.count
+                }, 0)
             }
         },
         removeItem(state, action: PayloadAction<number>) {
             const foundItem = state.items.find((item) => item.id === action.payload)
 
             if (foundItem) {
-                state.totalPrice = state.totalPrice - foundItem.price
+                state.totalPrice = state.totalPrice - foundItem.price * foundItem.count
                 state.totalCount = state.totalCount - foundItem.count
 
                 state.items = state.items.filter(item => item.id !== action.payload)

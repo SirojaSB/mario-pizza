@@ -1,0 +1,116 @@
+@import '../variables';
+
+.cart-card {
+    display: flex;
+    width: 100%;
+    border-top: 1px solid $gray-line;
+    padding-top: 30px;
+    margin-top: 30px;
+
+    @media (max-width: 822px) {
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    &__img {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+      width: 10%;
+
+      @media (max-width: 822px) {
+        display: none;
+      }
+
+      img {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 40%;
+
+      h3 {
+        font-weight: bold;
+        font-size: 22px;
+        line-height: 27px;
+        letter-spacing: 0.01em;
+
+        @media (max-width: 822px) {
+          font-size: 16px;
+          line-height: 19px;
+        }
+      }
+
+      p {
+        font-size: 18px;
+        color: #8d8d8d;
+
+        @media (max-width: 822px) {
+          font-size: 12px;
+        }
+      }
+    }
+
+    &__count {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 13%;
+
+      &_minus {
+        img {
+          width: 10px;
+          height: 10px;
+        }
+      }
+
+      b {
+        font-size: 22px;
+      }
+    }
+
+    &__price {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 33%;
+
+      b {
+        font-weight: bold;
+        font-size: 22px;
+        letter-spacing: 0.01em;
+
+        @media (max-width: 822px) {
+          font-size: 16px;
+        }
+      }
+    }
+
+    &__remove {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 4%;
+
+      .button {
+        border-color: darken($color: $gray-line, $amount: 10);
+      }
+
+      img {
+        transform: rotate(45deg);
+      }
+
+      .button {
+        &:hover,
+        &:active {
+          border-color: darken($color: $gray-line, $amount: 80);
+          background-color: darken($color: $gray-line, $amount: 80);
+        }
+      }
+    }
+  }

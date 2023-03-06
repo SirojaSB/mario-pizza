@@ -8,10 +8,12 @@ const Footer: React.FC = () => {
                 <nav>
                     <ul>
                         <li>
-                            <a className='footer__link-item' href='https://t.me/qurgat' target='_blank' rel="noreferrer">Telegram</a>
+                            <a className='footer__link-item' href='https://t.me/qurgat' target='_blank'
+                               rel="noreferrer">Telegram</a>
                         </li>
                         <li>
-                            <a className='footer__link-item' href='https://github.com/SirojaSB' target='_blank' rel="noreferrer">Github</a>
+                            <a className='footer__link-item' href='https://github.com/SirojaSB' target='_blank'
+                               rel="noreferrer">Github</a>
                         </li>
                     </ul>
                 </nav>

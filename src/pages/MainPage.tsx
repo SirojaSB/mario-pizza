@@ -121,24 +121,24 @@ const MainPage: React.FC = () => {
     }, [activeIndexOfCategory, activeSortProperty, currentPage])
 
     return (
-        <div className="container">
-            <div className="content__top">
+        <div className="main-page container">
+            <div className="main-page__top">
                 <Categories activeIndex={Number(activeIndexOfCategory)}
                             changeActiveIndex={(i: number) => changeActiveIndexOfCategory(i)}/>
                 <Sort/>
             </div>
-            <div className='content__undertop'>
-                <h2 className="content__title">Все пиццы</h2>
+            <div className='main-page__undertop'>
+                <h2 className="main-page__title">Все пиццы</h2>
                 <SearchForm/>
             </div>
             {status === 'error' ?
-                (<div className='content__error-container'>
+                (<div className='main-page__error-container'>
                     <h3>Произошла ошибка</h3>
                     <p>Извините, но нам не удалось выгрузить пиццы из нашего хранилища. Повторите попытку позднее.</p>
                 </div>) :
                 (<>
-                    <div className='content__container'>
-                        <ul className="content__items">
+                    <div className='main-page__container'>
+                        <ul className="main-page__items">
                             {status === 'loading' ?
                                 [...new Array(8)].map((_, i) => (<PizzaCardSkeleton key={i}/>)) :
                                 searchedPizzas.map((item: any) => (<PizzaCard key={item.id} {...item} />))}

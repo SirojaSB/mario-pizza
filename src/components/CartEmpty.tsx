@@ -6,12 +6,12 @@ const CartEmpty: React.FC = () => {
     const navigate = useNavigate()
 
     return (
-        <div className="container container--cart">
-            <div className="cart cart--empty">
+        <div className="container cart-page">
+            <div className="cart-empty">
                 <h2>Корзина пустая 😕</h2>
                 <p>
-                    Вероятней всего, вы не заказывали ещё пиццу.<br/>
-                    Для того, чтобы заказать пиццу, перейди на главную страницу.
+                    Вероятней всего, вы еще не добавили пиццу в корзину.<br/>
+                    Чтобы добавить пиццу в корзину, перейди на главную страницу.
                 </p>
                 <img src={cart} alt="Empty cart"/>
                 <button onClick={() => navigate(-1)} type='button' className="button button--black">

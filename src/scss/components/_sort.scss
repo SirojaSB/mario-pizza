@@ -11,8 +11,12 @@
     display: flex;
     align-items: center;
 
-    svg {
+    img {
       margin-right: 8px;
+    }
+
+    .sort__open {
+      transform: rotate(180deg);
     }
 
     b {
