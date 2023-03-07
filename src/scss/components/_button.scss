@@ -49,11 +49,11 @@
   }
 
   &--black {
-    background-color: $black;
+    background-color: $background;
 
     &:hover,
     &:active {
-      background-color: lighten($color: $black, $amount: 10);
+      background-color: darken($color: $background, $amount: 10);
     }
   }
 

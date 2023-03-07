@@ -48,7 +48,7 @@ const MainPage: React.FC = () => {
     const calculateNumberOfItems = useCallback(
         debounce(() => {
             const pageWidth = document.documentElement.clientWidth
-            const numberOfItems = pageWidth < 1189 || pageWidth > 1499 ? 8 : 6
+            const numberOfItems = pageWidth < 1173 || pageWidth > 1499 ? 8 : 6
 
             dispatch(changeCurrentNumberOfItems(numberOfItems))
         }, 500),
@@ -120,6 +120,13 @@ const MainPage: React.FC = () => {
         isFirstMount.current = false
     }, [activeIndexOfCategory, activeSortProperty, currentPage])
 
+    const error = (<div className='main-page__error-container'>
+        <h3>Произошла ошибка</h3>
+        {status === 'error' ?
+            <p>Извините, но нам не удалось выгрузить пиццы из нашего хранилища. Повторите попытку позднее.</p> :
+            <p>Поиск не дал результата. Попробуйте найти другую пиццу</p>}
+    </div>)
+
     return (
         <div className="main-page container">
             <div className="main-page__top">
@@ -131,12 +138,8 @@ const MainPage: React.FC = () => {
                 <h2 className="main-page__title">Все пиццы</h2>
                 <SearchForm/>
             </div>
-            {status === 'error' ?
-                (<div className='main-page__error-container'>
-                    <h3>Произошла ошибка</h3>
-                    <p>Извините, но нам не удалось выгрузить пиццы из нашего хранилища. Повторите попытку позднее.</p>
-                </div>) :
-                (<>
+            {status === 'error' ? error :
+                <>
                     <div className='main-page__container'>
                         <ul className="main-page__items">
                             {status === 'loading' ?
@@ -144,10 +147,12 @@ const MainPage: React.FC = () => {
                                 searchedPizzas.map((item: any) => (<PizzaCard key={item.id} {...item} />))}
                         </ul>
                     </div>
-                    <Pagination currentPage={currentPage}
-                                onPageChange={onChangeCurrentPage}
-                                currentNumberOfItems={currentNumberOfItems}/>
-                </>)}
+                    {searchedPizzas.length < currentNumberOfItems && currentPage !== 2 ? null :
+                        <Pagination currentPage={currentPage}
+                                    onPageChange={onChangeCurrentPage}
+                                    currentNumberOfItems={currentNumberOfItems}/>}
+                </>}
+            {searchedPizzas.length > 1 || status === 'loading' ? null : error}
         </div>
     );
 }

@@ -32,7 +32,7 @@ const SearchForm: React.FC = () => {
     return (
         <form className='search-form'>
             <input ref={inputRef} type="text" value={currentValue} onChange={onChangeValue} placeholder='Поиск пиццы...' required/>
-            <button type='button' onClick={cleatInput}>
+            <button type='button' className='button' onClick={cleatInput}>
                 <img src={icon} alt='Иконка очистки строки поиска'/>
             </button>
         </form>
