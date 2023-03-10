@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import debounce from 'lodash.debounce'
 import qs from 'qs'
@@ -18,9 +18,11 @@ import {
     getFilterSelector
 } from "../redux/slices/filterSlice";
 import {fetchPizzas} from "../redux/slices/pizzasSlice";
-import {useAppDispatch} from "../redux/store";
+import {RootState, useAppDispatch} from "../redux/store";
 
 const MainPage: React.FC = () => {
+    const [isOpen, setIsOpen] = useState(false)
+
     const isSearch = useRef(false)
     const isFirstMount = useRef(true)
 
@@ -35,7 +37,7 @@ const MainPage: React.FC = () => {
         currentNumberOfItems
     } = useSelector(getFilterSelector)
 
-    const {searchedPizzas, status} = useSelector((state: any) => state.pizzas)
+    const {searchedPizzas, status, selectedPizza} = useSelector((state: RootState) => state.pizzas)
 
     const changeActiveIndexOfCategory = (i: number) => {
         dispatch(changeCategory(i))
@@ -97,7 +99,6 @@ const MainPage: React.FC = () => {
             }))
     }
 
-
     useEffect(() => {
         if (!isSearch.current) {
             getPizzas()
@@ -144,7 +145,8 @@ const MainPage: React.FC = () => {
                         <ul className="main-page__items">
                             {status === 'loading' ?
                                 [...new Array(8)].map((_, i) => (<PizzaCardSkeleton key={i}/>)) :
-                                searchedPizzas.map((item: any) => (<PizzaCard key={item.id} {...item} />))}
+                                searchedPizzas.map((item) => (
+                                    <PizzaCard key={item.id} {...item} onClickCard={(arg) => setIsOpen(arg)}/>))}
                         </ul>
                     </div>
                     {searchedPizzas.length < currentNumberOfItems && currentPage !== 2 ? null :
@@ -153,6 +155,14 @@ const MainPage: React.FC = () => {
                                     currentNumberOfItems={currentNumberOfItems}/>}
                 </>}
             {searchedPizzas.length > 1 || status === 'loading' ? null : error}
+            <div onClick={() => setIsOpen(false)} className={`main-page__popup ${isOpen && 'main-page__popup_open'}`}>
+                <div onClick={e => e.stopPropagation()} className='main-page__popup-content'>
+                    <button type="button" aria-label="Закрыть карточку" onClick={() => setIsOpen(false)}/>
+                    <img src={selectedPizza.imageUrl} alt="Фото пиццы"/>
+                    <h3>{selectedPizza.title}</h3>
+                    <p>{selectedPizza.info}</p>
+                </div>
+            </div>
         </div>
     );
 }

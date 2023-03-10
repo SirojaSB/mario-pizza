@@ -4,6 +4,10 @@
   width: 280px;
   text-align: center;
 
+  &__pointer {
+    cursor: pointer;
+  }
+
   &__image {
     width: 260px;
   }

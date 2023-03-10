@@ -23,27 +23,40 @@ export const fetchPizzas = createAsyncThunk('pizzas/fetchPizzasStatus', async (p
     return data
 })
 
-type PizzaItem = {
+export type PizzaItem = {
     category: number;
     id: number;
     imageUrl: string;
     price: number;
     rating: string;
-    sizes: number[]
-    title: string
-    types: number[]
+    sizes: number[];
+    title: string;
+    types: number[];
+    info: string;
+}
+
+export type SelectedPizzaItem = {
+    imageUrl: string;
+    title: string;
+    info: string;
 }
 
 interface PizzasSliceState {
     pizzasStore: PizzaItem[],
     searchedPizzas: PizzaItem[],
-    status: 'loading' | 'success' | 'error'
+    status: 'loading' | 'success' | 'error',
+    selectedPizza: SelectedPizzaItem
 }
 
 const initialState: PizzasSliceState = {
     pizzasStore: [],
     searchedPizzas: [],
-    status: 'loading'
+    status: 'loading',
+    selectedPizza: {
+        imageUrl: '',
+        title: '',
+        info: ''
+    }
 }
 
 const pizzasSlice = createSlice({
@@ -53,6 +66,9 @@ const pizzasSlice = createSlice({
         getSearchedPizzas(state, action: PayloadAction<string>) {
             state.searchedPizzas = state.pizzasStore.filter((item) => item.title.toLowerCase().includes(action.payload.toLowerCase()))
         },
+        setSelectedPizza(state, action: PayloadAction<SelectedPizzaItem>) {
+            state.selectedPizza = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchPizzas.pending, (state) => {
@@ -73,6 +89,6 @@ const pizzasSlice = createSlice({
     }
 })
 
-export const {getSearchedPizzas} = pizzasSlice.actions
+export const {getSearchedPizzas, setSelectedPizza} = pizzasSlice.actions
 
 export default pizzasSlice.reducer

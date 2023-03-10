@@ -45,7 +45,7 @@ const Sort: React.FC = () => {
         document.body.addEventListener('click', closePopupOutside)
 
         return () => document.body.removeEventListener('click', closePopupOutside)
-    })
+    }, [])
 
     return (
         <div ref={sortRef} className="sort">

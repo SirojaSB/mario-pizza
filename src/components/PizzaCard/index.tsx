@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 
 import {addItem, CartItem} from '../../redux/slices/cartSlice'
+import {SelectedPizzaItem, setSelectedPizza} from "../../redux/slices/pizzasSlice";
 
 type PizzaCardProps = {
     imageUrl: string;
@@ -9,9 +10,11 @@ type PizzaCardProps = {
     price: number;
     sizes: number[];
     types: number[];
+    info: string;
+    onClickCard: (arg: boolean) => void;
 }
 
-const PizzaCard: React.FC<PizzaCardProps> = ({imageUrl, title, price, sizes, types}) => {
+const PizzaCard: React.FC<PizzaCardProps> = ({imageUrl, title, price, sizes, types, info, onClickCard}) => {
     const [activeIndexOfType, setActiveIndexOfType] = useState(0)
     const [activeIndexOfSize, setActiveIndexOfSize] = useState(0)
 
@@ -32,14 +35,22 @@ const PizzaCard: React.FC<PizzaCardProps> = ({imageUrl, title, price, sizes, typ
         dispatch(addItem(pizza))
     }
 
+    const openCard = () => {
+        dispatch(setSelectedPizza({imageUrl, title, info}))
+
+        onClickCard(true)
+    }
+
     return (
         <li className="pizza-block">
-            <img
-                className="pizza-block__image"
-                src={imageUrl}
-                alt="Pizza"
-            />
-            <h4 className="pizza-block__title">{title}</h4>
+            <div onClick={openCard} className='pizza-block__pointer'>
+                <img
+                    className="pizza-block__image"
+                    src={imageUrl}
+                    alt="Pizza"
+                />
+                <h4 className="pizza-block__title">{title}</h4>
+            </div>
             <div className="pizza-block__selector">
                 <ul>
                     {types.map((id) => <li key={id}
