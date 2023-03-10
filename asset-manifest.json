@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/mario-pizza/static/css/main.adf2c25d.css",
-    "main.js": "/mario-pizza/static/js/main.2842acb1.js",
+    "main.js": "/mario-pizza/static/js/main.5c5bc6a1.js",
     "static/media/Nunito-Medium.ttf": "/mario-pizza/static/media/Nunito-Medium.a7c01ee77faba77e24c1.ttf",
     "static/media/Nunito-Light.ttf": "/mario-pizza/static/media/Nunito-Light.0ec468f65958d1263b60.ttf",
     "static/media/Nunito-Regular.ttf": "/mario-pizza/static/media/Nunito-Regular.99a3b019e7727ac19479.ttf",
@@ -19,10 +19,10 @@
     "static/media/arrow-top.svg": "/mario-pizza/static/media/arrow-top.8a732a7211d0fa00bfd63712369e29cc.svg",
     "static/media/grey-arrow-left.svg": "/mario-pizza/static/media/grey-arrow-left.fc29ec73901b6f8218c91a0d69592416.svg",
     "main.adf2c25d.css.map": "/mario-pizza/static/css/main.adf2c25d.css.map",
-    "main.2842acb1.js.map": "/mario-pizza/static/js/main.2842acb1.js.map"
+    "main.5c5bc6a1.js.map": "/mario-pizza/static/js/main.5c5bc6a1.js.map"
   },
   "entrypoints": [
     "static/css/main.adf2c25d.css",
-    "static/js/main.2842acb1.js"
+    "static/js/main.5c5bc6a1.js"
   ]
 }
