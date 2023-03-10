@@ -154,7 +154,7 @@ const MainPage: React.FC = () => {
                                     onPageChange={onChangeCurrentPage}
                                     currentNumberOfItems={currentNumberOfItems}/>}
                 </>}
-            {searchedPizzas.length > 1 || status === 'loading' ? null : error}
+            {searchedPizzas.length >= 1 || status === 'loading' ? null : error}
             <div onClick={() => setIsOpen(false)} className={`main-page__popup ${isOpen && 'main-page__popup_open'}`}>
                 <div onClick={e => e.stopPropagation()} className='main-page__popup-content'>
                     <button type="button" aria-label="Закрыть карточку" onClick={() => setIsOpen(false)}/>
