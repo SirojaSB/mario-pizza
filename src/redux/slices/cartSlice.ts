@@ -18,19 +18,25 @@ interface CartSliceState {
     idCount: number;
 }
 
-const data: CartSliceState = JSON.parse(localStorage.getItem('cart') || '') ||
-    {
-        totalPrice: 0,
-        totalCount: 0,
-        items: [],
-        idCount: 0
-    }
+const getLocalStorage = () => {
+    const data = localStorage.getItem('cart')
+
+    return data ? JSON.parse(data) :
+        {
+            totalPrice: 0,
+            totalCount: 0,
+            items: [],
+            idCount: 0
+        }
+}
+
+const cartData = getLocalStorage()
 
 const initialState: CartSliceState = {
-    totalPrice: data.totalPrice,
-    totalCount: data.totalCount,
-    items: data.items,
-    idCount: data.idCount
+    totalPrice: cartData.totalPrice,
+    totalCount: cartData.totalCount,
+    items: cartData.items,
+    idCount: cartData.idCount
 }
 
 const cartSlice = createSlice({
@@ -47,13 +53,8 @@ const cartSlice = createSlice({
                 state.items.push({...action.payload, count: 1, id: state.idCount})
             }
 
-            state.totalPrice = state.items.reduce((sum, item) => {
-                return sum += item.price * item.count
-            }, 0)
-
-            state.totalCount = state.items.reduce((sum, item) => {
-                return sum += item.count
-            }, 0)
+            state.totalPrice = state.items.reduce((sum, item) => sum += item.price * item.count, 0)
+            state.totalCount = state.items.reduce((sum, item) => sum += item.count, 0)
         },
         increaseCountOfItem(state, action: PayloadAction<number>) {
             const foundItem = state.items.find((item) => item.id === action.payload)
@@ -74,13 +75,8 @@ const cartSlice = createSlice({
             } else {
                 state.items = state.items.filter(item => item.id !== action.payload)
 
-                state.totalPrice = state.items.reduce((sum, item) => {
-                    return sum += item.price * item.count
-                }, 0)
-
-                state.totalCount = state.items.reduce((sum, item) => {
-                    return sum += item.count
-                }, 0)
+                state.totalPrice = state.items.reduce((sum, item) => sum += item.price * item.count, 0)
+                state.totalCount = state.items.reduce((sum, item) => sum += item.count, 0)
             }
         },
         removeItem(state, action: PayloadAction<number>) {
